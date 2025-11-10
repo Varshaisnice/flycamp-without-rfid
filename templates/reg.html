@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlyCamp</title>
+  <link rel="stylesheet" href="/static/css/reg.css" />
+</head>
+<body>
+<div class="top-right-info">Waiting in queue: 1</div>
+
+<div id="welcome-screen" class="screen active">
+  <img src="/static/assets/welcome-logo.png" alt="welcome logo" class="welcome-logo"/>
+  <button class="button-29 start-button" onclick="goToScreen('form-screen')">START</button>
+</div>
+
+<div id="form-screen" class="screen">
+  <section class="container">
+    <!-- Stage groups the card and its decorative circles -->
+    <div class="form-stage">
+      <div class="circle circle-one"></div>
+
+      <div class="form-wrapper">
+        <h1 class="opacity">REGISTER PILOT</h1>
+        <form onsubmit="return false;">
+          <input type="text" id="name" placeholder="Pilot Name" autocomplete="off" />
+          <p id="message"></p>
+          <div class="form-buttons">
+            <button type="button" class="button-29 submit-button" onclick="submitForm()">SUBMIT</button>
+            <button type="button" class="button-29 back-button" onclick="goToScreen('welcome-screen')">BACK</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="circle circle-two"></div>
+    </div>
+  </section>
+  <div id="keyboard" class="virtual-keyboard"></div>
+</div>
+
+<div id="waiting-screen" class="screen">
+    <div class="scan-visual-container">
+        <h2 class="scan-title">Scan your token!</h2>
+        <div class="scan-animation">
+            <div class="scan-pulse"></div>
+            <div class="scan-pulse"></div>
+            <div class="scan-pulse"></div>
+        </div>
+        <p class="scan-subtitle">Please wait while we collect your details</p>
+    </div>
+
+    <div class="result-visual-container">
+        <div class="result-card">
+            <h2 class="result-title">Scan Complete!</h2>
+            <p class="result-detail"><strong>Pilot Name:</strong> <span id="result-username"></span></p>
+            <p class="result-detail"><strong>Token Number:</strong> <span id="result-rfid"></span></p>
+        </div>
+    </div>
+    
+    <button class="button-29 home-button" onclick="goToScreen('welcome-screen')">Go to Home</button>
+</div>
+
+<div id="drone-footer">
+  <img id="footer-drone" src="/static/assets/drone.png" alt="drone" />
+  <div class="footer-node" id="footer-node1"></div>
+  <div class="footer-node" id="footer-node2"></div>
+  <div class="footer-node" id="footer-node3"></div>
+</div>
+
+<script src="/static/js/reg.js"></script>
+</body>
+</html>

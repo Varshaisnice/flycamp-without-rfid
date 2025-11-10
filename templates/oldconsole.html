@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlyCamp</title>
+  <link rel="stylesheet" href="/static/css/console.css" />
+  <script defer src="/static/js/console.js"></script>
+</head>
+<body>
+  <!-- Background Circles for Glassmorphism -->
+  <div class="circle top-left"></div>
+  <div class="circle bottom-right"></div>
+
+  <!-- Page 1: Welcome -->
+  <div class="screen active" id="page1">
+    <h1>Welcome to FlyCamp</h1>
+    <div id="loader1">Waiting for token...</div>
+  </div>
+
+  <!-- Page 2: RFID Scan -->
+  <div class="screen" id="page2">
+    <div id="loader" class="hidden">Hey <span id="loader-name">...</span></div>
+    <h2 id="greeting"></h2>
+    <p id="user-info"></p>
+    <button onclick="confirmPlayer()">Confirm</button>
+    <button onclick="goToPage(1)">Back</button>
+  </div>
+
+  <!-- Page 4: Choose Game -->
+  <div class="screen" id="page4">
+    <h2>Choose Your Game</h2>
+    <div class="game-option">
+      <!-- Game 1 (Hover & Seek) -->
+      <button onclick="goToPage(13)">Hover and Seek</button>
+      <!-- Game 2 (Hue's the Boss / Colour Chaos) -->
+      <button onclick="goToPage(12)">Hue's the Boss</button>
+    </div>
+  </div>
+
+  <!-- Page 13: Choose Level for Hover & Seek (Game 1) -->
+  <div class="screen" id="page13">
+    <h2>Choose Your Level</h2>
+    <div class="level-container">
+      <div class="level-box">
+        <h3>Level 1</h3>
+        <p>Start easy! Tiles flash for 3 seconds. Fewer distractors.</p>
+        <!-- Game 1, Level 1 -->
+        <button
+          data-game="1"
+          data-level="1"
+          onclick="startGameLevel(1)"
+        >Play Level 1</button>
+      </div>
+      <div class="level-box">
+        <h3>Level 2</h3>
+        <p>Hard mode! Faster tiles. Sharpen up!</p>
+        <!-- Game 1, Level 2 -->
+        <button
+          data-game="1"
+          data-level="2"
+          onclick="startGameLevel(2)"
+        >Play Level 2</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 12: Choose Level for Hue's the Boss / Colour Chaos (Game 2) -->
+  <div class="screen" id="page12">
+    <h2>Choose Your Level</h2>
+    <div class="level-container">
+      <div class="level-box">
+        <h3>Level 1</h3>
+        <p>
+          Start easy! Match the color! Tap the node that matches the target shown.
+        </p>
+        <!-- Game 2, Level 1 -> huestheboss.py -->
+        <button
+          data-game="2"
+          data-level="1"
+          onclick="startHueGameLevel(1)"
+        >Play Level 1</button>
+      </div>
+      <div class="level-box">
+        <h3>Level 2</h3>
+        <p>
+          Hard mode! Colour twist! Each color maps to a different node,
+          think before you tap.
+        </p>
+        <!-- Game 2, Level 2 -> colourchaos.py -->
+        <button
+          data-game="2"
+          data-level="2"
+          onclick="startHueGameLevel(2)"
+        >Play Level 2</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW Page: Initialising (shown AFTER level selection) -->
+  <div class="screen" id="page_init">
+    <div class="init-wrap">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Initialising game components</h2>
+      <p id="init-status" class="muted">Running connection checks...</p>
+
+      <!-- Error area (hidden until a failure) -->
+      <div id="init-error" class="init-error hidden">
+        <p id="init-error-text">Initialisation failed. Please retry.</p>
+        <div class="init-actions">
+          <button id="btn-init-retry" onclick="retryConnectionCheck()">Retry</button>
+          <button id="btn-init-back" onclick="backToLevelSelect()">Back</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Store selected game/level for the init flow -->
+    <input type="hidden" id="selected-game" />
+    <input type="hidden" id="selected-level" />
+  </div>
+
+  <!-- Page 15: Countdown (if you use it in your flow) -->
+  <div class="screen" id="page15">
+    <h2 id="game-title">Welcome</h2>
+    <p id="countdown-text"></p>
+  </div>
+
+  <!-- Page 16: Leaderboard -->
+  <div class="screen" id="page16">
+    <div class="container">
+      <img
+        src="/static/assets/leaderboard.png"
+        alt="Final Results"
+        class="results-title"
+      />
+      <div class="podium">
+        <div class="player second">
+          <div class="place2"></div>
+          <div class="avatar"></div>
+          <div class="score"></div>
+        </div>
+        <div class="player first">
+          <div class="crown">👑</div>
+          <div class="place1"></div>
+          <div class="avatar"></div>
+          <div class="score"></div>
+        </div>
+        <div class="player third">
+          <div class="place3"></div>
+          <div class="avatar"></div>
+          <div class="score"></div>
+        </div>
+      </div>
+
+      <table class="leaderboard">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Pilot</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Hidden field to store RFID Token -->
+  <input type="hidden" id="rfidToken" />
+</body>
+</html>

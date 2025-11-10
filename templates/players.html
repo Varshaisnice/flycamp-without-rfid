@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registered Pilots</title>
+  <link rel="stylesheet" href="/static/css/reg.css" />
+  <style>
+    .player-table {
+      width: 90%;
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-collapse: collapse;
+      border: 1px solid #ffffff22;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .player-table th, .player-table td {
+      padding: 12px 20px;
+      text-align: left;
+      border-bottom: 1px solid #ffffff22;
+      color: var(--color);
+    }
+
+    .player-table th {
+      background-color: rgba(255, 255, 255, 0.1);
+      font-weight: bold;
+    }
+
+    .player-table tr:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 2rem;
+      color: var(--color);
+    }
+  </style>
+</head>
+<body>
+  <h1>FlyCamp Registered Pilots</h1>
+
+  <table class="player-table">
+    <thead>
+      <tr>
+        <th>Pilot ID</th>
+        <th>Pilot Name</th>
+      </tr>
+    </thead>
+    <tbody id="playerTableBody">
+      <!-- Pilot rows go here -->
+    </tbody>
+  </table>
+
+  <script>
+    async function loadPlayers() {
+      const res = await fetch('/players/full');
+      const players = await res.json();
+      const tbody = document.getElementById('playerTableBody');
+      tbody.innerHTML = '';
+
+      players.forEach(p => {
+        const row = `
+          <tr>
+            <td>${p.token_id}</td>
+            <td>${p.name}</td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+    }
+
+    loadPlayers();
+  </script>
+</body>
+</html>

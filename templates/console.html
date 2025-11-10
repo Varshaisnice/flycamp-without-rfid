@@ -1,0 +1,232 @@
+<!-- Has Changes-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlyCamp</title>
+  <link rel="stylesheet" href="/static/css/console.css" />
+  <script defer src="/static/js/console.js"></script>
+</head>
+<body>
+  <!-- Background decor -->
+  <div class="circle top-left"></div>
+  <div class="circle bottom-right"></div>
+  <!-- Top-right logo toggle (joystick <-> gesture sensor) -->
+  <button id="logo-toggle" title="Toggle controller type">
+    <img src="/static/assets/flycamplogo.png" alt="FlyCamp" />
+  </button>
+
+  <!-- Page 1: Welcome -->
+  <div class="screen active" id="page1">
+    <div class="vcenter">
+      <img class="welcome-logo" src="/static/assets/welcome-logo.png" alt="Welcome to FlyCamp" />
+      <div id="loader1" class="mt-12">Waiting for token...</div>
+    </div>
+  </div>
+
+  <!-- Page 2: RFID confirmation -->
+  <div class="screen" id="page2">
+    <div class="vcenter">
+      <h2 id="greeting">Hi!</h2>
+      <p id="user-info"></p>
+      <div class="btn-row big">
+        <button class="btn-cta" onclick="confirmPlayer()">Confirm</button>
+        <button class="btn-ghost" onclick="goToPage('page1')">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: Game select -->
+  <div class="screen" id="page_choose_game">
+    <img id="choose-image" src="/static/assets/choose your game.png" alt="Choose your game" />
+    <div class="card-container" id="game-card-container">
+
+      <!-- GAME 1: Mine Seeker -->
+      <article class="card"
+        data-game-id="1"
+        data-title="Mine Seeker"
+        data-desc="#rules-mine-seeker">
+        <h2 class="card-title">Mine Seeker</h2>
+
+        <div class="point-cards">
+          <div class="point-card"><span class="point-bullet"></span><p>An <strong>angel drone</strong> must disarm glowing mines to protect the battlefield.</p></div>
+        </div>
+
+        <div class="card-media">
+          <img class="card-image" src="static/assets/hover_and_seek.png" alt="Mine Seeker Drone"/>
+        </div>
+      </article>
+
+      <!-- GAME 2: Candy Commander -->
+      <article class="card"
+        data-game-id="2"
+        data-title="Candy Commander"
+        data-desc="#rules-candy-commander">
+        <h2 class="card-title">Candy Commander</h2>
+
+        <div class="point-cards">
+          <div class="point-card"><span class="point-bullet"></span><p>A <strong>hungry Candy Boss</strong> demands sweets — follow its color!</p></div>
+          
+        </div>
+
+        <div class="card-media">
+          <img class="card-image" src="static/assets/hues_the_boss.png" alt="Candy Commander Drone"/>
+        </div>
+      </article>
+
+      <!-- GAME 3: Code Breaker -->
+      <article class="card"
+        data-game-id="3"
+        data-title="Code Breaker"
+        data-desc="#rules-code-breaker">
+        <h2 class="card-title">Code Breaker</h2>
+
+        <div class="point-cards">
+          <div class="point-card"><span class="point-bullet"></span><p>An <strong>evil AI</strong> is corrupting a data center — decode colors to secure ports.</p></div>
+
+        </div>
+
+        <div class="card-media">
+          <img class="card-image" src="static/assets/color_chaos.png" alt="Code Breaker Drone"/>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- Page 4: Confirm & preview -->
+  <div class="screen" id="page_confirm">
+    <div class="confirm-container">
+      <div class="glass-box confirm-right">
+        <h2 id="chosen-game-title">You chose:</h2>
+        <p id="chosen-game-desc" class="chosen-desc"></p>
+
+        <!-- RULES: Now use point-cards + IDs matching data-desc -->
+        <div id="rules-container" class="game-rules">
+
+          <!-- Mine Seeker Rules -->
+          <div id="rules-mine-seeker" class="rule-set hidden">
+            <h3 class="rules-title">Rules – Mine Seeker</h3>
+            <div class="point-cards">
+              <div class="point-card"><span class="point-bullet"></span><p>You have <strong>2 minutes</strong> on the clock.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>There are <strong>5 mines</strong> in the arena.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>Fly and <strong>hover over</strong> an active mine to disarm it.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>Mines stay in place — focus on <strong>speed and control</strong>.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>Score as much as you can before time runs out!</p></div>
+            </div>
+          </div>
+
+          <!-- Candy Commander Rules -->
+          <div id="rules-candy-commander" class="rule-set hidden">
+            <h3 class="rules-title">Rules – Candy Commander</h3>
+            <div class="point-cards">
+              <div class="point-card"><span class="point-bullet"></span><p>Four <strong>candy stations</strong> are always visible.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>The <strong>Candy Boss flashes a color</strong> cue.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>Fly to the <strong>matching station</strong> to deliver.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>Each correct delivery earns <strong>points</strong>.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>Keep matching quickly to build your <strong>streak</strong>!</p></div>
+            </div>
+          </div>
+
+          <!-- Code Breaker Rules -->
+          <div id="rules-code-breaker" class="rule-set hidden">
+            <h3 class="rules-title">Rules – Code Breaker</h3>
+            <div class="point-cards">
+              <div class="point-card"><span class="point-bullet"></span><p>Five <strong>data ports</strong> are always active.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>A <strong>glitched cue</strong> appears — text, color, or background.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>Each game uses <strong>one cue type</strong> only.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p>Fly to the <strong>correct port</strong> to secure it.</p></div>
+              <div class="point-card"><span class="point-bullet"></span><p><strong>Wrong move = penalty</strong> — stay sharp!</p></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="btn-row big mt-8">
+          <button class="btn-ghost" onclick="goToPage('page_choose_game')">Back to Games</button>
+          <button class="btn-cta" id="confirm-game-btn">Confirm Game</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fullscreen video overlay -->
+    <div id="video-overlay" class="video-overlay" style="display: none;">
+      <video id="game-video" data-src="" playsinline></video>
+      <button id="close-video" class="btn-close">Close</button>
+      <button id="corner-progress" class="progress-btn"></button>
+    </div>
+  </div>
+
+  <!-- Page 5: Initialisation -->
+  <div class="screen" id="page_initializing">
+    <div class="content-box init-wrap">
+      <!-- Dynamic rules section -->
+      <div id="game-rules-dynamic" class="game-rules">
+        <div id="rules-dynamic" class="rule-set hidden">
+          <h3 id="rules-title-dynamic" class="rules-title"></h3>
+          <ul id="rules-list-dynamic" class="rules-list"></ul>
+        </div>
+      </div>
+      <!-- Initialization section -->
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Initialising game components</h2>
+      <p id="init-status" class="muted">Running connection checks...</p>
+      <div id="init-steps" class="steps">
+        <!-- Step blocks will be dynamically created by JS -->
+      </div>
+      <div id="init-error" class="init-error hidden">
+        <p id="init-error-text">Initialisation failed. Please retry.</p>
+        <div class="init-actions btn-row big">
+          <button class="btn-cta" id="btn-init-retry" onclick="retryConnectionCheck()">Retry</button>
+          <button class="btn-ghost" id="btn-init-back" onclick="backToChoose()">Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 5: Choose Controller -->
+  <div class="screen" id="page_choose_controller">
+    <div class="vcenter">
+      <h2 style="margin-bottom:12px;color:var(--accent)">Choose Controller</h2>
+      <p class="muted" style="margin-bottom:16px">Pick how you want to fly this game.</p>
+      <div class="btn-row big">
+        <button class="btn-cta" onclick="selectController('joystick')">Use Joystick</button>
+        <button class="btn-ghost" onclick="selectController('gesture')">Use Hand Gestures</button>
+      </div>
+      <div class="btn-row mt-8">
+        <button class="btn-ghost" onclick="goToPage('page_confirm')">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 6: Leaderboard -->
+  <div class="screen" id="page16">
+    <div class="lb-wrap">
+      <h2 class="lb-title">Final Results</h2>
+      <section class="lb-podium">
+        <div class="pod first"><div class="pod-rank">1</div><div class="pod-name"></div><div class="pod-score"></div></div>
+        <div class="pod second"><div class="pod-rank">2</div><div class="pod-name"></div><div class="pod-score"></div></div>
+        <div class="pod third"><div class="pod-rank">3</div><div class="pod-name"></div><div class="pod-score"></div></div>
+      </section>
+      <section class="lb-table">
+        <table>
+          <thead><tr><th>Rank</th><th>Pilot</th><th>Score</th></tr></thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </section>
+      <button class="btn-cta home-btn-bottom" onclick="backToHome()" title="Home">Home</button>
+    </div>
+  </div>
+
+  <input type="hidden" id="rfidToken" />
+</body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test FlyCamp</title>
+  <style>
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .card { cursor: pointer; padding: 20px; margin: 10px; border: 1px solid #bf00ff; }
+  </style>
+</head>
+<body>
+  <div class="screen active" id="page_choose_game">
+    <div class="card-container">
+      <article class="card" onclick="selectGame(1, 'Hover & Seek', 'Test game', '/static/assets/video1.mp4')">
+        <h2>Hover & Seek</h2>
+      </article>
+      <article class="card" onclick="selectGame(2, 'Hue’s the Boss', 'Test game 2', '/static/assets/video1.mp4')">
+        <h2>Hue’s the Boss</h2>
+      </article>
+    </div>
+  </div>
+  <div class="screen" id="page_confirm">
+    <h2 id="chosen-game-title">You chose:</h2>
+    <p id="chosen-game-desc"></p>
+    <div id="video-overlay" style="display: none;">
+      <video id="game-video" data-src="" playsinline></video>
+      <button id="close-video">Close</button>
+      <button id="corner-progress"></button>
+    </div>
+  </div>
+  <script>
+    let selectedGameId, selectedGameTitle, selectedGameDesc;
+    function qs(s) { return document.querySelector(s); }
+    function qsa(s) { return Array.from(document.querySelectorAll(s)); }
+    
+    function goToPage(id) {
+      console.log('goToPage:', id);
+      qsa('.screen').forEach(s => s.classList.remove('active'));
+      const pageEl = qs(`#${id}`);
+      if (pageEl) {
+        pageEl.classList.add('active');
+      } else {
+        console.error('Page not found:', id);
+      }
+    }
+    
+    function selectGame(gameId, title, desc, video) {
+      console.log('selectGame:', { gameId, title, desc, video });
+      selectedGameId = parseInt(gameId, 10);
+      selectedGameTitle = title || '';
+      selectedGameDesc = desc || '';
+      const src = video || '';
+      const titleEl = qs('#chosen-game-title');
+      const descEl = qs('#chosen-game-desc');
+      const videoEl = qs('#game-video');
+      if (titleEl && descEl && videoEl) {
+        titleEl.textContent = `You chose: ${selectedGameTitle}`;
+        descEl.textContent = selectedGameDesc;
+        videoEl.setAttribute('data-src', src);
+        goToPage('page_confirm');
+      } else {
+        console.error('Missing elements:', { titleEl, descEl, videoEl });
+      }
+    }
+    
+    window.selectGame = selectGame;
+  </script>
+</body>
+</html>

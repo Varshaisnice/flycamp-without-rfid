@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlyCamp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="console.css" />
+  <script defer src="console.js"></script>
+</head>
+<body>
+
+<!-- Choose Game Page -->
+<div class="screen active" id="page_choose_game">
+  <img id="choose-image" src="choose your game.png" alt="Ad" />
+  <div class="card-container" id="game-card-container">
+    
+    <!-- Card 1 -->
+    <div class="card" data-bg-color="#127781" data-game-name="Hover & Seek" data-image="hover&seek.png">
+      <h2>Hover & Seek</h2>
+      <p>A game of speed and memory. Find the highlighted tile before time runs out. Watch out for distractors!</p>
+      <video class="card-video" autoplay loop muted playsinline>
+        <source src="video 1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    
+    <!-- Card 2 -->
+    <div class="card" data-bg-color="#10375C" data-game-name="Hue's the Boss">
+      <h2>Hue's the Boss</h2>
+      <p>A challenge of color coordination. Match the target color to the correct node before your opponent does.</p>
+      <video class="card-video" autoplay loop muted playsinline>
+        <source src="video 1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    
+    <!-- Card 3 -->
+    <div class="card" data-bg-color="#127781" data-game-name="Color Chaos">
+      <h2>Color Chaos</h2>
+      <p>A chaotic twist on colors. Keep your reflexes sharp as rules keep changing on the fly!</p>
+      <video class="card-video" autoplay loop muted playsinline>
+        <source src="video 1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    
+  </div>
+</div>
+
+
+<!-- Confirm Page -->
+<div class="screen" id="page_confirm">
+  <div class="confirm-container">
+    
+    <!-- Left: Video Glass Box -->
+    <div class="confirm-left">
+       <img id="ad-image" src="hue's the boss.png" alt="Ad" />
+      <video id="chosen-game-video" autoplay loop muted playsinline>
+        <source src="video 1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    
+    <!-- Right: Description Glass Box -->
+    <div class="glass-box confirm-right">
+      <h2 id="chosen-game-title">Selected Game</h2>
+      <p id="chosen-game-desc">Game description will appear here.</p>
+      <div class="btn-row">
+        <button class="back-btn" onclick="goToPage('page_choose_game')">Back to Games</button>
+        <button class="confirm-btn" onclick="goToPage('page_initializing')">Confirm Game</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+  <!-- Initializing Game Page -->
+  <div class="screen" id="page_initializing">
+    <div class="content-box">
+      <h2>Initializing Game...</h2>
+      <p>Please wait while we set things up 🚀</p>
+    </div>
+  </div>
+
+</body>
+</html>
