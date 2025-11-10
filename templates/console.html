@@ -51,6 +51,7 @@
 
         <div class="point-cards">
           <div class="point-card"><span class="point-bullet"></span><p>An <strong>angel drone</strong> must disarm glowing mines to protect the battlefield.</p></div>
+          
         </div>
 
         <div class="card-media">
@@ -84,7 +85,7 @@
 
         <div class="point-cards">
           <div class="point-card"><span class="point-bullet"></span><p>An <strong>evil AI</strong> is corrupting a data center — decode colors to secure ports.</p></div>
-
+          
         </div>
 
         <div class="card-media">
@@ -94,69 +95,62 @@
 
     </div>
   </div>
+<!-- Page 4: Confirm & preview -->
+<div class="screen" id="page_confirm">
+  <div class="confirm-container">
+    <div class="glass-box confirm-right">
 
-  <!-- Page 4: Confirm & preview -->
-  <div class="screen" id="page_confirm">
-    <div class="confirm-container">
-      <div class="glass-box confirm-right">
-        <h2 id="chosen-game-title">You chose:</h2>
-        <p id="chosen-game-desc" class="chosen-desc"></p>
+      <!-- Game Title -->
+      <h2 id="chosen-game-title" class="text-center">You chose:</h2>
+      <p id="chosen-game-desc" class="chosen-desc text-center"></p>
 
-        <!-- RULES: Now use point-cards + IDs matching data-desc -->
-        <div id="rules-container" class="game-rules">
-
-          <!-- Mine Seeker Rules -->
-          <div id="rules-mine-seeker" class="rule-set hidden">
-            <h3 class="rules-title">Rules – Mine Seeker</h3>
-            <div class="point-cards">
-              <div class="point-card"><span class="point-bullet"></span><p>You have <strong>2 minutes</strong> on the clock.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>There are <strong>5 mines</strong> in the arena.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>Fly and <strong>hover over</strong> an active mine to disarm it.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>Mines stay in place — focus on <strong>speed and control</strong>.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>Score as much as you can before time runs out!</p></div>
-            </div>
-          </div>
-
-          <!-- Candy Commander Rules -->
-          <div id="rules-candy-commander" class="rule-set hidden">
-            <h3 class="rules-title">Rules – Candy Commander</h3>
-            <div class="point-cards">
-              <div class="point-card"><span class="point-bullet"></span><p>Four <strong>candy stations</strong> are always visible.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>The <strong>Candy Boss flashes a color</strong> cue.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>Fly to the <strong>matching station</strong> to deliver.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>Each correct delivery earns <strong>points</strong>.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>Keep matching quickly to build your <strong>streak</strong>!</p></div>
-            </div>
-          </div>
-
-          <!-- Code Breaker Rules -->
-          <div id="rules-code-breaker" class="rule-set hidden">
-            <h3 class="rules-title">Rules – Code Breaker</h3>
-            <div class="point-cards">
-              <div class="point-card"><span class="point-bullet"></span><p>Five <strong>data ports</strong> are always active.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>A <strong>glitched cue</strong> appears — text, color, or background.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>Each game uses <strong>one cue type</strong> only.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p>Fly to the <strong>correct port</strong> to secure it.</p></div>
-              <div class="point-card"><span class="point-bullet"></span><p><strong>Wrong move = penalty</strong> — stay sharp!</p></div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="btn-row big mt-8">
-          <button class="btn-ghost" onclick="goToPage('page_choose_game')">Back to Games</button>
-          <button class="btn-cta" id="confirm-game-btn">Confirm Game</button>
-        </div>
+      <!-- SINGLE RULES SECTION – No IDs, no margins -->
+      <div id="rules-container" class="game-rules">
+        <h3 class="rules-title text-center">Rules</h3>
+        <div id="active-rules" class="point-cards"></div>
       </div>
-    </div>
 
-    <!-- Fullscreen video overlay -->
-    <div id="video-overlay" class="video-overlay" style="display: none;">
-      <video id="game-video" data-src="" playsinline></video>
-      <button id="close-video" class="btn-close">Close</button>
-      <button id="corner-progress" class="progress-btn"></button>
+      <!-- Buttons -->
+      <div class="btn-row big mt-8">
+        <button class="btn-ghost" onclick="goToPage('page_choose_game')">Back to Games</button>
+        <button class="btn-cta" id="confirm-game-btn" onclick="confirmGame()">Confirm Game</button>
+      </div>
+
     </div>
   </div>
+
+  <!-- Fullscreen video overlay -->
+  <div id="video-overlay" class="video-overlay" style="display: none;">
+    <video id="game-video" data-src="" playsinline></video>
+    <button id="close-video" class="btn-close">Close</button>
+    <button id="corner-progress" class="progress-btn"></button>
+  </div>
+</div>
+
+<!-- HIDDEN RULE TEMPLATES (for JS to clone) -->
+<template id="rules-template-mine-seeker">
+  <div class="point-card"><span class="point-bullet"></span><p>You have <strong>2 minutes</strong> on the clock.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>There are <strong>5 mines</strong> in the arena.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>Fly and <strong>hover over</strong> an active mine to disarm it.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>Mines stay in place — focus on <strong>speed and control</strong>.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>Score as much as you can before time runs out!</p></div>
+</template>
+
+<template id="rules-template-candy-commander">
+  <div class="point-card"><span class="point-bullet"></span><p>Four <strong>candy stations</strong> are always visible.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>The <strong>Candy Boss flashes a color</strong> cue.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>Fly to the <strong>matching station</strong> to deliver.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>Each correct delivery earns <strong>points</strong>.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>Keep matching quickly to build your <strong>streak</strong>!</p></div>
+</template>
+
+<template id="rules-template-code-breaker">
+  <div class="point-card"><span class="point-bullet"></span><p>Five <strong>data ports</strong> are always active.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>A <strong>glitched cue</strong> appears — text, color, or background.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>Each game uses <strong>one cue type</strong> only.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p>Fly to the <strong>correct port</strong> to secure it.</p></div>
+  <div class="point-card"><span class="point-bullet"></span><p><strong>Wrong move = penalty</strong> — stay sharp!</p></div>
+</template>
 
   <!-- Page 5: Initialisation -->
   <div class="screen" id="page_initializing">

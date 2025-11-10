@@ -541,3 +541,44 @@ window.backToHome  = function(){
   scanningActive = true;
   beginAutoScan();
 };
+
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    const rules = JSON.parse(card.getAttribute('data-rules'));
+    console.log('Selected Game Rules:', rules);
+    // Use to populate Page 4 or Page 5 dynamically
+  });
+});
+
+
+let selectedGame = null;
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    selectedGame = {
+      title: card.getAttribute('data-title'),
+      templateId: card.getAttribute('data-desc').replace('#rules-', 'rules-template-')
+    };
+
+    // Update title
+    document.getElementById('chosen-game-title').textContent = `You chose: ${selectedGame.title}`;
+    document.getElementById('chosen-game-desc').textContent = '';
+
+    // Clear and inject rules
+    const rulesContainer = document.getElementById('active-rules');
+    rulesContainer.innerHTML = '';
+
+    const template = document.getElementById(selectedGame.templateId);
+    if (template) {
+      const clone = template.content.cloneNode(true);
+      rulesContainer.appendChild(clone);
+    }
+
+    goToPage('page_confirm');
+  });
+});
+
+function confirmGame() {
+  if (selectedGame) goToPage('page_choose_controller');
+}
