@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FlyCamp</title>
   <link rel="stylesheet" href="/static/css/console.css" />
-  <script defer src="/static/js/console.js"></script>
+ <script defer src="/static/js/console.js?v=5"></script>
+
 </head>
 <body>
   <!-- Background decor -->
@@ -151,48 +152,133 @@
   <div class="point-card"><span class="point-bullet"></span><p>Fly to the <strong>correct port</strong> to secure it.</p></div>
   <div class="point-card"><span class="point-bullet"></span><p><strong>Wrong move = penalty</strong> — stay sharp!</p></div>
 </template>
+<!-- Page 5: Initialisation -->
+<div class="screen" id="page_initializing">
+  <div class="content-box init-wrap">
 
-  <!-- Page 5: Initialisation -->
-  <div class="screen" id="page_initializing">
-    <div class="content-box init-wrap">
-      <!-- Dynamic rules section -->
-      <div id="game-rules-dynamic" class="game-rules">
-        <div id="rules-dynamic" class="rule-set hidden">
-          <h3 id="rules-title-dynamic" class="rules-title"></h3>
-          <ul id="rules-list-dynamic" class="rules-list"></ul>
+    <!-- ===================== GENERIC RULES – BOLDER & LARGER ===================== -->
+    <div class="glass-box" style="
+      padding: 36px 40px;
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto 40px;
+      border-radius: 24px;
+      max-height: 520px;
+      overflow-y: auto;
+      background: rgba(50, 0, 70, 0.35);
+      box-shadow: 0 0 24px rgba(255, 0, 255, 0.2);
+    ">
+      <h2 style="
+        font-size: clamp(2.6rem,5.5vw,4.2rem);
+        font-weight: 900;
+        text-align: center;
+        background: linear-gradient(135deg,#fff,#ffb3ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 22px rgba(255,0,255,.6);
+        margin: 0 0 24px 0;
+        line-height: 1.25;
+        letter-spacing: 0.8px;
+      ">
+        Generic Flying Instructions
+      </h2>
+
+      <p style="
+        text-align: center;
+        color: #f1ccff;
+        font-size: 1.25rem;
+        margin-bottom: 28px;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+      ">After reading the rules, click “Start Game.”</p>
+
+      <div style="display:flex;flex-direction:column;gap:18px;font-size:1.15rem;">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="flex-shrink:0;width:26px;height:26px;background:linear-gradient(135deg,#ff00ff,#bf00ff);border-radius:50%;box-shadow:0 0 16px rgba(255,0,255,.85);margin-top:4px;"></div>
+          <p style="margin:0;line-height:1.7;"><strong class="neon-highlight">Place your hand</strong> over the mirror surface for <strong class="neon-highlight">3 seconds</strong> to launch the drone.</p>
         </div>
-      </div>
-      <!-- Initialization section -->
-      <div class="spinner" aria-hidden="true"></div>
-      <h2>Initialising game components</h2>
-      <p id="init-status" class="muted">Running connection checks...</p>
-      <div id="init-steps" class="steps">
-        <!-- Step blocks will be dynamically created by JS -->
-      </div>
-      <div id="init-error" class="init-error hidden">
-        <p id="init-error-text">Initialisation failed. Please retry.</p>
-        <div class="init-actions btn-row big">
-          <button class="btn-cta" id="btn-init-retry" onclick="retryConnectionCheck()">Retry</button>
-          <button class="btn-ghost" id="btn-init-back" onclick="backToChoose()">Back</button>
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="flex-shrink:0;width:26px;height:26px;background:linear-gradient(135deg,#ff00ff,#bf00ff);border-radius:50%;box-shadow:0 0 16px rgba(255,0,255,.85);margin-top:4px;"></div>
+          <p style="margin:0;line-height:1.7;">The <strong class="neon-highlight">120-second timer</strong> begins only when you score your first point.</p>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="flex-shrink:0;width:26px;height:26px;background:linear-gradient(135deg,#ff00ff,#bf00ff);border-radius:50%;box-shadow:0 0 16px rgba(255,0,255,.85);margin-top:4px;"></div>
+          <p style="margin:0;line-height:1.7;"><strong class="neon-highlight">Fly smoothly</strong>, stay inside the arena, and aim for accuracy.</p>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="flex-shrink:0;width:26px;height:26px;background:linear-gradient(135deg,#ff00ff,#bf00ff);border-radius:50%;box-shadow:0 0 16px rgba(255,0,255,.85);margin-top:4px;"></div>
+          <p style="margin:0;line-height:1.7;"><strong class="neon-highlight">Score as many points</strong> as possible before time runs out.</p>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-start;border-left:4px solid #ff66ff;padding-left:16px;background:rgba(255,102,255,.15);border-radius:12px;">
+          <div style="flex-shrink:0;width:26px;height:26px;background:linear-gradient(135deg,#ff66ff,#bf00ff);border-radius:50%;box-shadow:0 0 18px rgba(255,102,255,.8);margin-top:4px;"></div>
+          <p style="margin:0;line-height:1.7;font-weight:700;"><strong class="neon-highlight" style="font-size:1.35em;">Most important rule:</strong> Have fun!</p>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Page 5: Choose Controller -->
-  <div class="screen" id="page_choose_controller">
-    <div class="vcenter">
-      <h2 style="margin-bottom:12px;color:var(--accent)">Choose Controller</h2>
-      <p class="muted" style="margin-bottom:16px">Pick how you want to fly this game.</p>
-      <div class="btn-row big">
-        <button class="btn-cta" onclick="selectController('joystick')">Use Joystick</button>
-        <button class="btn-ghost" onclick="selectController('gesture')">Use Hand Gestures</button>
+    <!-- ===================== INITIALISING NODES ===================== -->
+    <div style="text-align:center;margin-bottom:18px;">
+      <div class="spinner" id="init-spinner" style="width:64px;height:64px;margin:12px auto;"></div>
+      <h2 style="
+        font-size:clamp(1.9rem,4vw,2.8rem);
+        background:linear-gradient(135deg,#bf00ff,#ff66ff);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        margin:0 0 6px 0;
+      ">Initialising Nodes</h2>
+      <p id="init-status" class="muted" style="font-size:1rem;">Running connection checks…</p>
+    </div>
+
+    <div id="init-steps" style="
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:14px;
+      max-width:960px;
+      margin:0 auto 28px;
+      padding:0 10px;
+    "></div>
+
+    <div id="init-error" class="init-error hidden">
+      <p id="init-error-text">Initialisation failed. Please retry.</p>
+      <div class="init-actions btn-row big">
+        <button class="btn-cta" id="btn-init-retry" onclick="retryConnectionCheck()">Retry</button>
+        <button class="btn-ghost" id="btn-init-back" onclick="backToChoose()">Back</button>
       </div>
-      <div class="btn-row mt-8">
-        <button class="btn-ghost" onclick="goToPage('page_confirm')">Back</button>
+    </div>
+
+    <div id="start-game-btn" class="btn-row big hidden" style="margin-top:28px;">
+      <button class="btn-cta full-width" onclick="startGame()" style="font-size:1.45rem;padding:22px;">
+        Start Game
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Page 5.5: Detailed Initialisation View -->
+<div class="screen" id="page_detailed_init">
+  <div class="content-box init-wrap">
+    <div id="game-rules-dynamic" class="game-rules">
+      <div id="rules-dynamic" class="rule-set">
+        <h3 id="rules-title-dynamic" class="rules-title">Component Status Overview</h3>
+        <ul id="rules-list-dynamic" class="rules-list"></ul>
+      </div>
+    </div>
+
+    <div class="spinner" aria-hidden="true"></div>
+    <h2>Initialising Game Components</h2>
+    <p id="detailed-init-status" class="muted">Running connection checks...</p>
+
+    <div id="detailed-init-steps" class="steps"></div>
+
+    <div id="detailed-init-error" class="init-error hidden">
+      <p id="detailed-init-error-text">Some components failed to initialise.</p>
+      <div class="init-actions btn-row big">
+        <button class="btn-cta" onclick="retryConnectionCheck()">Retry</button>
+        <button class="btn-ghost" onclick="backToChoose()">Back</button>
       </div>
     </div>
   </div>
+</div>
+
 
   <!-- Page 6: Leaderboard -->
   <div class="screen" id="page16">
@@ -214,6 +300,8 @@
   </div>
 
   <input type="hidden" id="rfidToken" />
+
+  
 </body>
 </html>
 
